@@ -33,6 +33,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+  filter: brightness(var(--brightness, 100%));
+  transition: filter 0.3s ease, background-color 0.3s ease;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

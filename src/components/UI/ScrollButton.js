@@ -19,7 +19,7 @@ export default function ScrollToTopButton() {
     };
 
     return (
-        <AnimatePresence>
+        <AnimatePresence >
             {visible && (
                 <motion.div
                     className="fixed bottom-6 right-6 z-50 group"
@@ -30,7 +30,7 @@ export default function ScrollToTopButton() {
                 >
                     <button
                         onClick={scrollToTop}
-                        className="bg-amber-700 text-white p-3 rounded-full shadow-lg hover:bg-amber-800 transition-all duration-300 transform hover:scale-110 relative"
+                        className="bg-amber-700 dark:bg-white dark:text-gray-900 text-white p-3 rounded-full shadow-lg hover:bg-amber-800 transition-all duration-300 transform hover:scale-110 relative"
                         aria-label="Scroll to top"
                     >
                         <ArrowUp size={20} />

@@ -7,8 +7,8 @@ export default function MealSummary(){
     return(
         <React.Fragment>
 
-            <section className="relative w-full px-4 py-4 text-white">
-                <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl mx-auto py-12 relative z-20">
+            <section className="relative w-full px-4 py-10 text-white">
+                <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl mx-auto py-12 space-y-10 lg:space-y-0 lg:space-x-10 relative z-20">
 
                     {/* Left Text Content */}
                     <div className="lg:w-1/2 text-left text-white space-y-4 lg:mb-0">

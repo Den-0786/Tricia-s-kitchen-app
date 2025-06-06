@@ -1,8 +1,11 @@
 'use client'
 import React,{useState, useEffect} from "react"
-import {Menu, X} from "lucide-react"
+import {Menu, X, Sun, Moon} from "lucide-react"
+import { UserCog } from "lucide-react";
 import Hero from '@components/Layout/Hero'
 import HeaderCartButton from "./HeaderCartButton";
+import { useTheme } from "@components/UI/ThemeContext";
+
 
 const navLinks = [
     { name: "Home", href: "#home" },
@@ -15,7 +18,7 @@ const navLinks = [
 export default function Header({onClick, cartCount}){
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("#home");
-
+    const {theme, toggleTheme} = useTheme();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -37,9 +40,16 @@ export default function Header({onClick, cartCount}){
 
     return (
         <React.Fragment>
-            <header className="bg-amber-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
+            <header className="bg-amber-900 text-white p-4 fixed top-0 left-0 right-0 z-50 dark:bg-gray-900 dark:text-gray-100">
                 <div className="container mx-auto flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Tricia&apos;s Kitchen</h1>
+                    <a
+                        href="/admin/login"
+                        title="To Admin Login page"
+                        className="p-2 rounded-full bg-white/20 hover:bg-white/30 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
+                        >
+                        <UserCog className="w-5 h-5 text-white dark:text-gray-100"/>
+                    </a>
                     <nav className="hidden md:flex space-x-4 items-center"> 
                         {navLinks.map(link => (
                             <a 
@@ -52,6 +62,12 @@ export default function Header({onClick, cartCount}){
                                 {link.name}
                             </a>
                         ))}
+                        <button
+                            onClick={toggleTheme}
+                            className="text-white hover:text-yellow-300"
+                            title="Toggle Theme">
+                            {theme === "dark" ? <Moon className="w-5 h-5"/> : <Sun className="w-5 h-5"/>}
+                        </button>
                         <HeaderCartButton onClick={onClick} cartCount={cartCount}/>
                     </nav>
                     <button 
@@ -61,7 +77,7 @@ export default function Header({onClick, cartCount}){
                     </button>
                 </div>
                 {isOpen && (
-                    <div className="md:hidden mt-2 px-4 pb-4 space-y-2 bg-amber-800 text-white p-4">
+                    <div className="md:hidden mt-2 px-4 pb-4 space-y-2 bg-amber-800 text-white p-4 dark:bg-gray-800 dark:text-white">
                         {navLinks.map(link => (
                             <a 
                                 key={link.href}
@@ -74,6 +90,12 @@ export default function Header({onClick, cartCount}){
                                 {link.name}
                             </a>
                         ))}
+                        <button
+                            onClick={toggleTheme}
+                            className="text-white hover:text-yellow-300"
+                            title="Toggle Theme">
+                            {theme === "dark" ? <Moon className="w-5 h-5"/> : <Sun className="w-5 h-5"/>}
+                        </button>
                         <HeaderCartButton onClick={onClick} cartCount={cartCount} />
                     </div>
                 )}

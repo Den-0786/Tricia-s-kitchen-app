@@ -11,9 +11,6 @@ import About from '@components/UI/About';
 import Footer from '@components/UI/Footer';
 import OrderForm from '@components/Cart/OrderForm';
 
-
-
-
 export default function App() {
     const router = useRouter();
     const [cartIsShow, setCartIsShow] = useState(false);
@@ -115,7 +112,7 @@ export default function App() {
             <div className="flex items-center justify-center min-h-[300px] py-20">
                 <div className="bg-white shadow-xl rounded-xl p-6 w-full max-w-md text-center relative overflow-hidden">
                     <h2 className="text-2xl font-bold text-green-700 mb-2">Order Placed Successfully!</h2>
-                    <p className="text-gray-700 mb-3">
+                    <p className="text-gray-700 dark:text-gray-300 mb-3">
                         Your order has been received and is being processed. A delivery agent will contact you soon. 
                         
                     </p>

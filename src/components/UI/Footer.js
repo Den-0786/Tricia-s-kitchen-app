@@ -14,7 +14,7 @@ export default function Footer(){
 
     return(
         <React.Fragment>
-            <footer className='bg-amber-900 mt-10 px-4 lg:px-0 flex justify-center '>
+            <footer className='bg-amber-900 mt-10 px-4 lg:px-0 flex justify-center dark:bg-gray-800 dark:text-white '>
                 <div className='flex flex-col lg:flex-row w-full h-full max-w-6x shadow-sm p-4"'>
                     
                     {/*Left section*/}
@@ -22,7 +22,7 @@ export default function Footer(){
                         <h2 className='text text-gray-50 mt-6'>Follow us on:</h2>
                         <div className='flex flex-row items-center gap-4 transition'>
                             <a href="https://www.facebook.com/profile.php?id=100085692115198&mibextid=LQQj4d" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                                <FaFacebook className='text-[2rem] rounded-lg text-blue-600 transform duration-200 hover:scale-105'/>
+                                <FaFacebook className='text-[2rem] rounded-lg bg-white text-blue-600 transform duration-200 hover:scale-105'/>
                             </a>
                             <a href="https://x.com/DennisOpok35210" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                                 <FaTwitter className='bg-black text-[2rem] rounded-xl transform duration-200 hover:scale-105'/>

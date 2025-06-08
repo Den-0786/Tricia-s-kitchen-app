@@ -12,15 +12,15 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 const HomeView = ({ darkMode, inventoryItems, orders, searchQuery }) => {
     // Chart data
     const orderStatusData = [
-        { name: 'Preparing', value: orders.filter(o => o.status === 'Preparing').length },
-        { name: 'Ready', value: orders.filter(o => o.status === 'Ready').length },
-        { name: 'Delivered', value: orders.filter(o => o.status === 'Delivered').length }
+    { name: 'Preparing', value: (orders ?? []).filter(o => o.status === 'Preparing').length },
+    { name: 'Ready', value: (orders ?? []).filter(o => o.status === 'Ready').length },
+    { name: 'Delivered', value: (orders ?? []).filter(o => o.status === 'Delivered').length }
     ];
 
     const inventoryStatusData = [
-        { name: 'Good', value: inventoryItems.filter(i => i.status === 'good').length },
-        { name: 'Medium', value: inventoryItems.filter(i => i.status === 'medium').length },
-        { name: 'Low', value: inventoryItems.filter(i => i.status === 'low').length }
+        { name: 'Good', value: (inventoryItems ?? []).filter(i => i.status === 'good').length },
+        { name: 'Medium', value: (inventoryItems ?? []).filter(i => i.status === 'medium').length },
+        { name: 'Low', value: (inventoryItems ?? []).filter(i => i.status === 'low').length }
     ];
 
     return (
@@ -39,8 +39,11 @@ const HomeView = ({ darkMode, inventoryItems, orders, searchQuery }) => {
                 </div>
                 <div className={`p-4 rounded-lg shadow ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
                     <h2 className="text-lg font-semibold mb-2">Low Stock Items</h2>
-                    <p className="text-3xl font-bold text-red-500">
+                    {/* <p className="text-3xl font-bold text-red-500">
                         {inventoryItems.filter(item => item.status === 'low').length}
+                    </p> */}
+                    <p className="text-3xl font-bold text-red-500">
+                        {Array.isArray(inventoryItems) ? inventoryItems.filter(item => item.status === 'low').length : 0}
                     </p>
                     <p className="text-sm text-gray-500">Need immediate attention</p>
                 </div>

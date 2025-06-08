@@ -18,13 +18,13 @@ const mealsData = [
 ]
 
 const openingHours = [
+    { day: 'Sunday', open: 'Closed', close: '', lastOrder: ''  },
     { day: 'Mon', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
     { day: 'Tue', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
     { day: 'Wed', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
     { day: 'Thu', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
     { day: 'Fri', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
     { day: 'Sat', open: '9:00 AM', close: '6:00 PM', lastOrder: '5:30 PM'  },
-    { day: 'Sunday', open: 'Closed', close: '', lastOrder: ''  },
 ]
 
 function parseTime(timeStr) {
@@ -43,13 +43,13 @@ function checkOpenStatus() {
     if (today.open === 'Closed') return false
 
     const [openHour, openMin] = parseTime(today.open)
-    const [lastOrderHour, lastOrderMin] = parseTime(today.lastOrder)
+    const [closeHour, closeMin] = parseTime(today.close)
 
     const currentMinutes = now.getHours() * 60 + now.getMinutes()
     const openMinutes = openHour * 60 + openMin
-    const lastOrderMinutes = lastOrderHour * 60 + lastOrderMin
+    const closeMinutes = closeHour * 60 + closeMin
 
-    return currentMinutes >= openMinutes && currentMinutes <= lastOrderMinutes
+    return currentMinutes >= openMinutes && currentMinutes <= closeMinutes
 }
 
 function OpeningHoursTooltip() {
@@ -84,62 +84,63 @@ export default function HomePageMeals({ addToCart }) {
     }, [])
 
   // Get current day's data
-    const now = new Date()
-    const dayIndex = now.getDay() // 0 (Sun) to 6 (Sat)
-    const adjustedIndex = dayIndex === 0 ? 6 : dayIndex - 1
-    const todayData = openingHours[adjustedIndex]
-    const tomorrowData = openingHours[(adjustedIndex + 1) % 7]
+    const now = new Date();
+    const jsDayIndex = now.getDay();
+    const arrayDayIndex = jsDayIndex === 0 ? 6 : jsDayIndex - 1;
 
-    const openMessage = `We're Open! ${todayData.lastOrder ? `Last orders at ${todayData.lastOrder}` : ''}`
+    const todayData = openingHours[arrayDayIndex];
+    const tomorrowData = openingHours[(arrayDayIndex + 1) % 7];
+
+    const openMessage = `We're Open! ${todayData.lastOrder ? `Last orders at ${todayData.lastOrder}` : ''}`;
     const closedMessage = `Sorry, we're Closed now. ${
         tomorrowData.open === 'Closed' 
-        ? 'Closed tomorrow' 
+        ? 'Closed on Sundays' 
         : `Opens at ${tomorrowData.open} tomorrow. Thank you.`
-    }`
+    }`;
 
 
     return (
         <React.Fragment>
             <section id="home" className="flex flex-col items-center justify-center relative px-4 md:px-8">
-            <div className="border-2 rounded-lg shadow-lg w-full max-w-7xl p-6 bg-white dark:bg-gray-800 dark:text-gray-100 relative">
-                {/* Open/Closed Banner */}
-                <div
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-                className={`
-                    flex items-center justify-center mb-6 rounded-md p-3 text-center
-                    transition-opacity duration-700
-                    ${isOpen ? 'bg-green-100 border border-green-600 text-green-800' : 'bg-red-100 border border-red-600 text-red-800'}
-                    relative cursor-pointer
-                `}
-                aria-label="Restaurant open hours status"
-                >
-                <span className="mr-2 text-2xl animate-pulse" aria-hidden="true">
-                    {isOpen ? '🟢' : '🔴'}
-                </span>
-                <span className="font-semibold text-lg">
-                    {isOpen ? openMessage : closedMessage}
-                </span>
-                {showTooltip && <OpeningHoursTooltip />}
-                </div>
+                <div className="border-2 rounded-lg shadow-lg w-full max-w-7xl p-6 bg-white dark:bg-gray-800 dark:text-gray-100 relative">
+                    {/* Open/Closed Banner */}
+                    <div
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                    className={`
+                        flex items-center justify-center mb-6 rounded-md p-3 text-center
+                        transition-opacity duration-700
+                        ${isOpen ? 'bg-green-100 border border-green-600 text-green-800' : 'bg-red-100 border border-red-600 text-red-800'}
+                        relative cursor-pointer
+                    `}
+                    aria-label="Restaurant open hours status"
+                    >
+                    <span className="mr-2 text-2xl animate-pulse" aria-hidden="true">
+                        {isOpen ? '🟢' : '🔴'}
+                    </span>
+                    <span className="font-semibold text-lg">
+                        {isOpen ? openMessage : closedMessage}
+                    </span>
+                    {showTooltip && <OpeningHoursTooltip />}
+                    </div>
 
-                {/* Available Meals */}
-                <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-700 dark:text-gray-100 mb-3 text-center">
-                    Available Meals
-                </h1>
-                <p className="text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-300">
-                    Explore our delicious, freshly prepared meals made from the best local ingredients. Whether you want something light or a full meal, we have you covered. Order now and enjoy the authentic taste delivered to your doorstep.
-                </p>
-                </div>
+                    {/* Available Meals */}
+                    <div className="mb-8">
+                    <h1 className="text-4xl font-bold text-gray-700 dark:text-gray-100 mb-3 text-center">
+                        Available Meals
+                    </h1>
+                    <p className="text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-300">
+                        Explore our delicious, freshly prepared meals made from the best local ingredients. Whether you want something light or a full meal, we have you covered. Order now and enjoy the authentic taste delivered to your doorstep.
+                    </p>
+                    </div>
 
-                {/* Meals Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
-                {mealsData.map((meal) => (
-                    <MealCard key={meal.id} meal={meal} addToCart={addToCart} />
-                ))}
+                    {/* Meals Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+                    {mealsData.map((meal) => (
+                        <MealCard key={meal.id} meal={meal} addToCart={addToCart} />
+                    ))}
+                    </div>
                 </div>
-            </div>
             </section>
         </React.Fragment>
     )

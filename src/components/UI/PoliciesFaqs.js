@@ -23,17 +23,17 @@ const faqs = [
     {
         question: "Do you do delivery?",
         answer:
-        "Yes, we deliver to most locations within 1-3 business days after order confirmation.",
+        "Yes, we do delivery within Kumasi.",
     },
     {
         question: "How long does it take to get my order?",
         answer:
-        "Delivery typically takes 1-3 working days depending on your location.",
+        "Delivery typically takes 45minutes or less depending on your location.",
     },
     {
         question: "What is your refund policy?",
         answer:
-        "You can request a refund or exchange within 24 hours of receiving your order. Please contact our support.",
+        "You can request a refund or exchange within 2 hours of receiving your order. Please contact our support.",
     },
     {
         question: "How do you protect my privacy?",
@@ -43,7 +43,12 @@ const faqs = [
     {
         question: "What payment methods do you accept?",
         answer:
-        "We accept Mobile Money, Visa, and Cash on Delivery. Prepaid orders get priority processing.",
+        "We accept Mobile Money and Cash on Delivery for now, Visa and other payments method will be available soon.",
+    },
+    {
+        question: "What are your offers",
+        answer: 
+        "Our offers includes, Wedding, Engagement, Birthday parties, Graduations and all other Events"
     },
     ];
 

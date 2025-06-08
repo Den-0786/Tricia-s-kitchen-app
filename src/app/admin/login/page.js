@@ -1,9 +1,30 @@
 'use client'
-
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
+
+// Mock user database with roles
+const MOCK_USERS = [
+    {
+        username: 'dennisopokuamponsah86@gmail.com',
+        password: 'Den0786op#',
+        role: 'admin',
+        name: 'Main Admin'
+    },
+    {
+        username: 'inventory@32.com',
+        password: 'inventory123',
+        role: 'inventory',
+        name: 'Inventory Manager'
+    },
+    {
+        username: 'orders@23.com',
+        password: 'orders123',
+        role: 'orders',
+        name: 'Order Manager'
+    }
+    ];
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');
@@ -18,33 +39,29 @@ export default function AdminLogin() {
         setError('');
         setIsLoading(true);
 
-        // Frontend validation only for demo
         if (!username.trim() || !password.trim()) {
-        setError('Please enter both username and password');
-        setIsLoading(false);
-        return;
-        }
-
-        // Simulate API call with timeout
-        setTimeout(() => {
-        // Mock authentication - in real app, replace with actual API call
-        const mockUsers = [
-            { username: 'dennisopokuamponsah86@gmail.com', password: 'Den0786op#' }
-        ];
-        
-        const validUser = mockUsers.find(
-            user => user.username === username && user.password === password
-        );
-
-        if (validUser) {
-            // Store simple auth state in localStorage for frontend demo
-            localStorage.setItem('adminAuth', 'true');
-            // Redirect to admin dashboard
-            router.push('/admin/dashboard');
-        } else {
-            setError('Invalid username or password');
+            setError('Please enter both username and password');
             setIsLoading(false);
+            return;
         }
+
+        setTimeout(() => {
+            const validUser = MOCK_USERS.find(
+                user => user.username === username && user.password === password
+            );
+
+            if (validUser) {
+                localStorage.setItem('restaurantAuth', JSON.stringify({
+                    username: validUser.username,
+                    role: validUser.role,
+                    name: validUser.name,
+                    isAuthenticated: true
+                }));
+                router.push('/admin/dashboard');
+            } else {
+                setError('Invalid username or password');
+                setIsLoading(false);
+            }
         }, 1000);
     };
 
@@ -52,14 +69,13 @@ export default function AdminLogin() {
         <React.Fragment>
             <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
                 <div className='w-full max-w-md p-8 bg-white rounded-xl shadow-2xl'>
-                    <h1 className='text-2xl text-gray-900 font-bold text-center mb-6'>Admin Login</h1>
+                    <h1 className='text-2xl text-gray-900 font-bold text-center mb-6'>Tricia&apos;s Kitchen Login</h1>
                     
                     {error && (
-                    <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm text-center">
-                        {error}
-                    </div>
+                        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm text-center">
+                            {error}
+                        </div>
                     )}
-                    
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <label htmlFor="username" className='block text-sm font-medium text-gray-700 mb-1'>
@@ -106,7 +122,7 @@ export default function AdminLogin() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full bg-gray-900 text-white rounded-md p-2 hover:bg-gray-800 transition duration-200 flex items-center justify-center ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-amber-900 text-white rounded-md p-2 hover:bg-amber-600 transition duration-200 flex items-center justify-center ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
                         >
                             {isLoading ? (
                             <>

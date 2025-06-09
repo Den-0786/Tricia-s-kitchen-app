@@ -25,7 +25,6 @@ export default function ForgotPassword() {
 
         // Simulate API call
         setTimeout(() => {
-        // In real app, this would send a reset link to the email
         setMessage(`If an admin account exists with ${email}, you'll receive a password reset link shortly.`);
         setIsLoading(false);
         setEmail('');
@@ -75,7 +74,7 @@ export default function ForgotPassword() {
                             placeholder='Enter admin email address'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className='w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-900'
+                            className='w-full text-gray-800 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-900'
                             autoComplete='email'
                         />
                         </div>

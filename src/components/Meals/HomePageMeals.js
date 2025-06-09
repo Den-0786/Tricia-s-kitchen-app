@@ -19,12 +19,12 @@ const mealsData = [
 
 const openingHours = [
     { day: 'Sunday', open: 'Closed', close: '', lastOrder: ''  },
-    { day: 'Mon', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
-    { day: 'Tue', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
-    { day: 'Wed', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
-    { day: 'Thu', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
-    { day: 'Fri', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
-    { day: 'Sat', open: '9:00 AM', close: '6:00 PM', lastOrder: '5:30 PM'  },
+    { day: 'Monday', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
+    { day: 'Tuesday', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
+    { day: 'Wednesday', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
+    { day: 'Thursday', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
+    { day: 'Friday', open: '7:00 AM', close: '8:00 PM', lastOrder: '7:30 PM'  },
+    { day: 'Saturday', open: '9:00 AM', close: '6:00 PM', lastOrder: '5:30 PM'  },
 ]
 
 function parseTime(timeStr) {
@@ -54,7 +54,7 @@ function checkOpenStatus() {
 
 function OpeningHoursTooltip() {
     return (
-        <div className="absolute bottom-full mb-2 w-48 p-3 bg-gray-800 text-white text-sm rounded-lg shadow-lg z-50 opacity-0 animate-fadeIn"
+        <div className="absolute bottom-full mb-2 w-[14rem] p-3 bg-gray-800 text-white text-sm rounded-lg shadow-lg z-50 opacity-0 animate-fadeIn"
             style={{ animationFillMode: 'forwards' }}>
             <h4 className="font-semibold mb-2 underline">Opening Days & Hours</h4>
             <ul>
@@ -84,19 +84,42 @@ export default function HomePageMeals({ addToCart }) {
     }, [])
 
   // Get current day's data
+    // const now = new Date();
+    // const jsDayIndex = now.getDay();
+    // // const todayData = openingHours[jsDayIndex]; 
+    // const arrayDayIndex = jsDayIndex === 0 ? 6 : jsDayIndex - 1;
+    // const todayData = openingHours[arrayDayIndex];
+    // const tomorrowData = openingHours[(arrayDayIndex + 1) % 7];
+
+    // const openMessage = `We're Open! ${todayData.lastOrder ? `Last orders at ${todayData.lastOrder}` : ''}`;
+    // const closedMessage = `Sorry, we're Closed now. ${
+    //     tomorrowData.open === 'Closed' 
+    //     ? 'Closed on Sundays' 
+    //     : `Opens at ${tomorrowData.open} tomorrow. Thank you.`
+    // }`;
+
     const now = new Date();
     const jsDayIndex = now.getDay();
-    const arrayDayIndex = jsDayIndex === 0 ? 6 : jsDayIndex - 1;
+    const todayData = openingHours[jsDayIndex];
+    
+    // Get next open day's data
+    let nextOpenDayData = null;
+    for (let i = 1; i <= 7; i++) {
+        const nextIndex = (jsDayIndex + i) % 7;
+        if (openingHours[nextIndex].open !== 'Closed') {
+            nextOpenDayData = openingHours[nextIndex];
+            break;
+        }
+    }
 
-    const todayData = openingHours[arrayDayIndex];
-    const tomorrowData = openingHours[(arrayDayIndex + 1) % 7];
+    const openMessage = todayData.open === 'Closed' 
+        ? 'Closed today' 
+        : `We're Open! ${todayData.lastOrder ? `Last orders at ${todayData.lastOrder}` : ''}`;
+    
+    const closedMessage = todayData.open === 'Closed'
+        ? `Closed today. ${nextOpenDayData ? `Opens at ${nextOpenDayData.open} on ${nextOpenDayData.day}` : ''}`
+        : `Sorry, we're Closed now. ${nextOpenDayData ? `Opens at ${nextOpenDayData.open} on ${nextOpenDayData.day}` : ''}`;
 
-    const openMessage = `We're Open! ${todayData.lastOrder ? `Last orders at ${todayData.lastOrder}` : ''}`;
-    const closedMessage = `Sorry, we're Closed now. ${
-        tomorrowData.open === 'Closed' 
-        ? 'Closed on Sundays' 
-        : `Opens at ${tomorrowData.open} tomorrow. Thank you.`
-    }`;
 
 
     return (

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiAlertTriangle, FiPlus, FiEdit, FiTrash2, FiDownload } from 'react-icons/fi';
 
-const InventoryView = ({ darkMode, inventoryItems = [], setInventoryItems, searchQuery = '' }) => {
+const InventoryView = ({ darkMode, inventoryItems = [],  setInventoryItems, searchQuery = ''}) => {
     const [items, setItems] = useState(inventoryItems || []);
     const [newInventoryItem, setNewInventoryItem] = useState({
         name: '',

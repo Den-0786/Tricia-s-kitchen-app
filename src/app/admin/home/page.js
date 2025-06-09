@@ -4,12 +4,12 @@ import {
     FiPackage, FiShoppingCart, FiAlertTriangle
 } from 'react-icons/fi';
 import {
-    BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell
+    Tooltip, ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const HomeView = ({ darkMode, inventoryItems, orders, searchQuery }) => {
+const HomeView = ({ darkMode, inventoryItems, orders, searchQuery, showRevenue=true }) => {
     // Chart data
     const orderStatusData = [
     { name: 'Preparing', value: (orders ?? []).filter(o => o.status === 'Preparing').length },
@@ -32,16 +32,16 @@ const HomeView = ({ darkMode, inventoryItems, orders, searchQuery }) => {
                     <p className="text-3xl font-bold">24</p>
                     <p className="text-sm text-gray-500">+5 from yesterday</p>
                 </div>
-                <div className={`p-4 rounded-lg shadow ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-                    <h2 className="text-lg font-semibold mb-2">Revenue</h2>
-                    <p className="text-3xl font-bold">GHC 2,450</p>
-                    <p className="text-sm text-gray-500">Today&apos;s earnings</p>
-                </div>
+                {showRevenue && (
+                    <div className={`p-4 rounded-lg shadow ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                        <h2 className="text-lg font-semibold mb-2">Revenue</h2>
+                        <p className="text-3xl font-bold">GHC 2,450</p>
+                        <p className="text-sm text-gray-500">Today&apos;s earnings</p>
+                    </div>
+                )}
                 <div className={`p-4 rounded-lg shadow ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
                     <h2 className="text-lg font-semibold mb-2">Low Stock Items</h2>
-                    {/* <p className="text-3xl font-bold text-red-500">
-                        {inventoryItems.filter(item => item.status === 'low').length}
-                    </p> */}
+                    
                     <p className="text-3xl font-bold text-red-500">
                         {Array.isArray(inventoryItems) ? inventoryItems.filter(item => item.status === 'low').length : 0}
                     </p>
@@ -145,3 +145,4 @@ const HomeView = ({ darkMode, inventoryItems, orders, searchQuery }) => {
 };
 
 export default HomeView;
+

@@ -3,10 +3,6 @@ import React, { useState } from 'react'
 import FinalConfirmModal from './FinalConfirmModal'
 import { useRouter } from 'next/navigation';
 
-// Function to generate random alphanumeric code
-// const generateUniqueCode = () => {
-//     return Math.random().toString(36).substr(2, 6).toUpperCase();
-// }
 const generateUniqueCode = () => {
     const randomPart = Math.random().toString(36).substr(2, 3).toUpperCase(); 
     const timePart = Date.now().toString(36).substr(-3).toUpperCase();       
@@ -82,7 +78,7 @@ export default function OrderForm({ cart, totalAmount, onBackToCart, onOrderComp
                         value={customerInfo.fullName}
                         onChange={handleChange}
                         disabled={showFinalConfirm && !editing}
-                        className="w-full border rounded px-3 py-1"
+                        className="w-full text-gray-800 border rounded px-3 py-1"
                         required
                     />
                 </div>
@@ -95,7 +91,7 @@ export default function OrderForm({ cart, totalAmount, onBackToCart, onOrderComp
                         value={customerInfo.email}
                         onChange={handleChange}
                         disabled={showFinalConfirm && !editing}
-                        className="w-full border rounded px-3 py-1"
+                        className="w-full text-gray-800 border rounded px-3 py-1"
                         required
                     />
                 </div>
@@ -107,7 +103,7 @@ export default function OrderForm({ cart, totalAmount, onBackToCart, onOrderComp
                         value={customerInfo.address}
                         onChange={handleChange}
                         disabled={showFinalConfirm && !editing}
-                        className="w-full border rounded px-3 py-1"
+                        className="w-full text-gray-800 border rounded px-3 py-1"
                         required
                     />
                 </div>
@@ -120,7 +116,7 @@ export default function OrderForm({ cart, totalAmount, onBackToCart, onOrderComp
                         value={customerInfo.phone}
                         onChange={handleChange}
                         disabled={showFinalConfirm && !editing}
-                        className="w-full border rounded px-3 py-1"
+                        className="w-full text-gray-800 border rounded px-3 py-1"
                         required
                     />
                 </div>

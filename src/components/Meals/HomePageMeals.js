@@ -83,20 +83,6 @@ export default function HomePageMeals({ addToCart }) {
         return () => clearInterval(interval)
     }, [])
 
-  // Get current day's data
-    // const now = new Date();
-    // const jsDayIndex = now.getDay();
-    // // const todayData = openingHours[jsDayIndex]; 
-    // const arrayDayIndex = jsDayIndex === 0 ? 6 : jsDayIndex - 1;
-    // const todayData = openingHours[arrayDayIndex];
-    // const tomorrowData = openingHours[(arrayDayIndex + 1) % 7];
-
-    // const openMessage = `We're Open! ${todayData.lastOrder ? `Last orders at ${todayData.lastOrder}` : ''}`;
-    // const closedMessage = `Sorry, we're Closed now. ${
-    //     tomorrowData.open === 'Closed' 
-    //     ? 'Closed on Sundays' 
-    //     : `Opens at ${tomorrowData.open} tomorrow. Thank you.`
-    // }`;
 
     const now = new Date();
     const jsDayIndex = now.getDay();
@@ -104,10 +90,12 @@ export default function HomePageMeals({ addToCart }) {
     
     // Get next open day's data
     let nextOpenDayData = null;
+    let nextOpenIsTomorrow = false;
     for (let i = 1; i <= 7; i++) {
         const nextIndex = (jsDayIndex + i) % 7;
         if (openingHours[nextIndex].open !== 'Closed') {
             nextOpenDayData = openingHours[nextIndex];
+            nextOpenIsTomorrow = (i === 1);
             break;
         }
     }
@@ -118,7 +106,7 @@ export default function HomePageMeals({ addToCart }) {
     
     const closedMessage = todayData.open === 'Closed'
         ? `Closed today. ${nextOpenDayData ? `Opens at ${nextOpenDayData.open} on ${nextOpenDayData.day}` : ''}`
-        : `Sorry, we're Closed now. ${nextOpenDayData ? `Opens at ${nextOpenDayData.open} on ${nextOpenDayData.day}` : ''}`;
+        : `Sorry, we're Closed now. ${nextOpenDayData ? `Opens at ${nextOpenDayData.open} ${nextOpenIsTomorrow ? 'tomorrow' : `on ${nextOpenDayData.day}`}` : ''}`;
 
 
 

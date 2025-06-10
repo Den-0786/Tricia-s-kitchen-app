@@ -360,3 +360,5 @@ InventoryView.defaultProps = {
 };
 
 export default InventoryView;
+
+

@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { FiAlertTriangle, FiPlus, FiEdit, FiTrash2, FiDownload } from 'react-icons/fi';
+import { toast } from 'sonner';
 
 const InventoryView = ({ darkMode, inventoryItems = [],  setInventoryItems, searchQuery = ''}) => {
     const [items, setItems] = useState(inventoryItems || []);
@@ -77,6 +78,7 @@ const InventoryView = ({ darkMode, inventoryItems = [],  setInventoryItems, sear
     const deleteInventoryItem = (id) => {
         setInventoryItems(items.filter(item => item.id !== id));
         setItemToDelete(null);
+        toast.info('Inventory item deleted. Undo coming soon!');
     };
 
     // Export inventory

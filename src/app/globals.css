@@ -17,6 +17,17 @@
     transform: translateX(-100%);
   }
 }
+@keyframes cart-bounce {
+  0% { transform: scale(1) rotate(0deg); }
+  20% { transform: scale(1.2) rotate(-10deg); }
+  40% { transform: scale(0.95) rotate(10deg); }
+  60% { transform: scale(1.1) rotate(-6deg); }
+  80% { transform: scale(0.98) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.animate-cart-bounce {
+  animation: cart-bounce 0.6s cubic-bezier(0.4,0,0.2,1);
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

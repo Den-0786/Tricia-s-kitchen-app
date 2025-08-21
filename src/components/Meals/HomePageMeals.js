@@ -54,7 +54,7 @@ function checkOpenStatus() {
 
 function OpeningHoursTooltip() {
     return (
-        <div className="absolute bottom-full mb-2 w-[14rem] p-3 bg-gray-800 text-white text-sm rounded-lg shadow-lg z-50 opacity-0 animate-fadeIn"
+        <div className="absolute right-[1rem] bottom-full mb-2 w-[14rem] p-3 bg-gray-800 text-white text-sm rounded-lg shadow-lg z-50 opacity-0 animate-fadeIn"
             style={{ animationFillMode: 'forwards' }}>
             <h4 className="font-semibold mb-2 underline">Opening Days & Hours</h4>
             <ul>
@@ -75,7 +75,7 @@ function OpeningHoursTooltip() {
 
 export default function HomePageMeals({ addToCart }) {
     const [isOpen, setIsOpen] = useState(false)
-    const [showTooltip, setShowTooltip] = useState(false)
+    const [showCalendar, setShowCalendar] = useState(false)
 
     useEffect(() => {
         setIsOpen(checkOpenStatus())
@@ -114,25 +114,46 @@ export default function HomePageMeals({ addToCart }) {
         <React.Fragment>
             <section id="home" className="flex flex-col items-center justify-center relative px-4 md:px-8">
                 <div className="border-2 rounded-lg shadow-lg w-full max-w-7xl p-6 bg-white dark:bg-gray-800 dark:text-gray-100 relative">
+                    {/* Open Days and Time Button */}
+                    <div className="flex justify-center mb-4">
+                        <button
+                            className="flex items-center gap-2 px-5 py-2 bg-amber-700 text-white rounded-full shadow hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors text-base font-semibold"
+                            onClick={() => setShowCalendar((prev) => !prev)}
+                            onMouseEnter={() => setShowCalendar(true)}
+                            onMouseLeave={() => setShowCalendar(false)}
+                            aria-label="Show open days and time"
+                        >
+                            <span role="img" aria-label="calendar">📅</span>
+                            Open days and time
+                        </button>
+                        <div className="relative">
+                            {showCalendar && (
+                                <div
+                                    onMouseEnter={() => setShowCalendar(true)}
+                                    onMouseLeave={() => setShowCalendar(false)}
+                                    className="absolute left-0 ml-4 z-50 mt-2"
+                                >
+                                    <OpeningHoursTooltip />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                     {/* Open/Closed Banner */}
                     <div
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
-                    className={`
-                        flex items-center justify-center mb-6 rounded-md p-3 text-center
-                        transition-opacity duration-700
-                        ${isOpen ? 'bg-green-100 border border-green-600 text-green-800' : 'bg-red-100 border border-red-600 text-red-800'}
-                        relative cursor-pointer
-                    `}
-                    aria-label="Restaurant open hours status"
+                        className={`
+                            flex items-center justify-center mb-6 rounded-md p-3 text-center
+                            transition-opacity duration-700
+                            ${isOpen ? 'bg-green-100 border border-green-600 text-green-800' : 'bg-red-100 border border-red-600 text-red-800'}
+                            relative
+                        `}
+                        aria-label="Restaurant open hours status"
                     >
-                    <span className="mr-2 text-2xl animate-pulse" aria-hidden="true">
-                        {isOpen ? '🟢' : '🔴'}
-                    </span>
-                    <span className="font-semibold text-lg">
-                        {isOpen ? openMessage : closedMessage}
-                    </span>
-                    {showTooltip && <OpeningHoursTooltip />}
+                        <span className="mr-2 text-2xl animate-pulse" aria-hidden="true">
+                            {isOpen ? '🟢' : '🔴'}
+                        </span>
+                        <span className="font-semibold text-lg">
+                            {isOpen ? openMessage : closedMessage}
+                        </span>
                     </div>
 
                     {/* Available Meals */}

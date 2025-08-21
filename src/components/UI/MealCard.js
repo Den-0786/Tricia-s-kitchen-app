@@ -11,6 +11,7 @@ export default function MealCard({meal, addToCart}) {
                 <img 
                     src={meal.image} 
                     alt={meal.name} 
+                    loading="lazy"
                     className="w-full aspect-[4/3] object-cover "></img>
                 <div className="p-4">
                     <h2 className="text-lg font-semibold mb-2 text-gray-700">{meal.name}</h2>

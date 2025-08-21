@@ -10,29 +10,39 @@ import ScrollToTopButton from '@components/UI/ScrollButton';
 import About from '@components/UI/About';
 import Footer from '@components/UI/Footer';
 import OrderForm from '@components/Cart/OrderForm';
+import { toast } from 'sonner';
+import Confetti from 'react-confetti';
 
 export default function App() {
     const router = useRouter();
     const [cartIsShow, setCartIsShow] = useState(false);
     const [cart, setCart] = useState([]);
+    const [animateCart, setAnimateCart] = useState(false);
 
     const showCartHandler = () => setCartIsShow(true);
     const hideCartHandler = () => setCartIsShow(false);
     
-    const addToCart = (meal) => {
-        setCart((prev) => {
-            const exists = prev.find((item) => item.id === meal.id);
-            if(exists) {
-                return prev.map((item) => 
-                    item.id === meal.id 
-                ? {...item, quantity: item.quantity + 1} 
-                : item
-            );
-
-            }
-            return [...prev, {...meal, quantity: 1}];
-        });
-    
+    const addToCart = async (meal) => {
+        try {
+            // Simulate async
+            await new Promise((res, rej) => setTimeout(() => Math.random() < 0.95 ? res() : rej(new Error('Failed to add item')), 400));
+            setCart((prev) => {
+                const exists = prev.find((item) => item.id === meal.id);
+                if (exists) {
+                    return prev.map((item) =>
+                        item.id === meal.id
+                            ? { ...item, quantity: item.quantity + 1 }
+                            : item
+                    );
+                }
+                return [...prev, { ...meal, quantity: 1 }];
+            });
+            toast.success('Item added to cart!');
+            setAnimateCart(true);
+            setTimeout(() => setAnimateCart(false), 700);
+        } catch (e) {
+            toast.error('Failed to add item to cart. Please try again.');
+        }
     };
 
     const increaseQty = (id) => 
@@ -51,12 +61,14 @@ export default function App() {
                 : item
             )
         );
-    const removeFromCart = (id) => 
+    const removeFromCart = (id) => {
+        toast.success('Item removed from cart!');
         setCart((prev) => 
             prev.filter((item) => 
             item.id !== id
         )
     );
+    };
 
     const clearCart = () => setCart([]);
 
@@ -103,9 +115,11 @@ export default function App() {
 
     return (
         <div className='bg-white relative'>
+        {orderCompleted && <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={300} />}
         <Header 
             onClick={showCartHandler}
             cartCount={cartCount}
+            animateCart={animateCart}
         />
         
         {orderCompleted ? (

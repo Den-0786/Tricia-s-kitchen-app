@@ -17,10 +17,8 @@ export const ThemeProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (theme) {
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-        localStorage.setItem('theme', theme);
-        }
+        document.body.classList.add('transition-colors', 'duration-500');
+        document.body.classList.toggle('dark', theme === 'dark');
     }, [theme]);
 
     const toggleTheme = () => {

@@ -10,6 +10,7 @@ import {
 import HomeView from '../home/page';
 import InventoryView from '../inventory/page';
 import OrdersView from '../order/page';
+import { toast } from 'sonner';
 
 const AdminDashboard = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -58,9 +59,9 @@ const AdminDashboard = () => {
         ]);
 
         setOrders([
-            { id: 1001, customer: 'John Smith', items: 'Banku & Tilapia x2', total: 'GHC 180.00', status: 'Preparing', date: '2023-06-01' },
-            { id: 1002, customer: 'Emma Johnson', items: 'Jollof Rice x1', total: 'GHC 80.99', status: 'Ready', date: '2023-06-01' },
-            { id: 1003, customer: 'Daniel Lee', items: 'Waakye x3', total: 'GHC 92.97', status: 'Delivered', date: '2023-05-31' }
+            { id: 1001, customer: 'John Smith', items: 'Banku & Tilapia x2', total: 'GHC 180.00', status: 'Preparing', date: '2023-06-01', location: 'Accra' },
+            { id: 1002, customer: 'Emma Johnson', items: 'Jollof Rice x1', total: 'GHC 80.99', status: 'Ready', date: '2023-06-01', location: 'Kumasi' },
+            { id: 1003, customer: 'Daniel Lee', items: 'Waakye x3', total: 'GHC 92.97', status: 'Delivered', date: '2023-05-31', location: 'Accra' }
         ]);
 
         handleResize();
@@ -89,6 +90,7 @@ const AdminDashboard = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('restaurantAuth');
+        toast.success('Logged out successfully!');
         router.push('/admin/login');
     };
 
@@ -238,6 +240,8 @@ const AdminDashboard = () => {
                         inventoryItems={inventoryItems}
                         orders={orders}
                         searchQuery={searchQuery}
+                        showRevenue={user.role === 'admin'}
+                        userRole={user.role}
                     />
                 )}
 
@@ -256,6 +260,7 @@ const AdminDashboard = () => {
                         orders={orders}
                         setOrders={setOrders}
                         searchQuery={searchQuery}
+                        userRole={user.role}
                     />
                 )}
             </main>

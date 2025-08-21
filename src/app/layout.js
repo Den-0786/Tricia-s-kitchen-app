@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           {children}
         </ThemeProvider>
-        <SonnerToaster position="top-right" richColors />
+        <SonnerToaster position="top-right" richColors aria-live="polite" />
         <HotToaster position="bottom-right" />
       </body>
     </html>

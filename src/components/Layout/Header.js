@@ -1,5 +1,5 @@
 'use client'
-import React,{useState, useEffect} from "react"
+import React,{useState, useEffect, useRef} from "react"
 import {Menu, X, Sun, Moon} from "lucide-react"
 import { UserCog } from "lucide-react";
 import Hero from '@components/Layout/Hero'
@@ -15,10 +15,12 @@ const navLinks = [
 ];
 
 
-export default function Header({onClick, cartCount}){
+export default function Header({onClick, cartCount, animateCart}){
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("#home");
     const {theme, toggleTheme} = useTheme();
+    const menuRef = useRef(null);
+    const buttonRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -36,6 +38,22 @@ export default function Header({onClick, cartCount}){
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        function handleClickOutside(event) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [isOpen]);
 
 
     return (
@@ -68,16 +86,21 @@ export default function Header({onClick, cartCount}){
                             title="Toggle Theme">
                             {theme === "dark" ? <Moon className="w-5 h-5"/> : <Sun className="w-5 h-5"/>}
                         </button>
-                        <HeaderCartButton onClick={onClick} cartCount={cartCount}/>
+                        <HeaderCartButton onClick={onClick} cartCount={cartCount} animate={animateCart}/>
                     </nav>
                     <button 
                         className="md:hidden focus:outline-none"
-                        onClick={() => setIsOpen(!isOpen)}>
+                        onClick={() => setIsOpen(!isOpen)}
+                        ref={buttonRef}
+                    >
                         {isOpen ? <X className="w-6 h-6"/> : <Menu className="w-6 h-6"/>}
                     </button>
                 </div>
                 {isOpen && (
-                    <div className="md:hidden mt-2 px-4 pb-4 space-y-2 bg-amber-800 text-white p-4 dark:bg-gray-800 dark:text-white">
+                    <div
+                        ref={menuRef}
+                        className="md:hidden mt-2 px-4 pb-4 space-y-2 bg-amber-800 text-white p-4 dark:bg-gray-800 dark:text-white"
+                    >
                         {navLinks.map(link => (
                             <a 
                                 key={link.href}
@@ -96,7 +119,7 @@ export default function Header({onClick, cartCount}){
                             title="Toggle Theme">
                             {theme === "dark" ? <Moon className="w-5 h-5"/> : <Sun className="w-5 h-5"/>}
                         </button>
-                        <HeaderCartButton onClick={onClick} cartCount={cartCount} />
+                        <HeaderCartButton onClick={onClick} cartCount={cartCount} animate={animateCart} />
                     </div>
                 )}
             </header>

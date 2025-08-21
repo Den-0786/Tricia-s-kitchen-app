@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaEye, FaEyeSlash, FaSpinner } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 // Mock user database with roles
 const MOCK_USERS = [
@@ -42,6 +43,7 @@ export default function AdminLogin() {
         if (!username.trim() || !password.trim()) {
             setError('Please enter both username and password');
             setIsLoading(false);
+            toast.error('Please enter both username and password');
             return;
         }
 
@@ -57,10 +59,12 @@ export default function AdminLogin() {
                     name: validUser.name,
                     isAuthenticated: true
                 }));
+                toast.success('Login successful!');
                 router.push('/admin/dashboard');
             } else {
                 setError('Invalid username or password');
                 setIsLoading(false);
+                toast.error('Invalid username or password');
             }
         }, 1000);
     };

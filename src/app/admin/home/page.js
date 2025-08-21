@@ -4,12 +4,12 @@ import {
     FiPackage, FiShoppingCart, FiAlertTriangle
 } from 'react-icons/fi';
 import {
-    Tooltip, ResponsiveContainer, PieChart, Pie, Cell
+    Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip as BarTooltip, ResponsiveContainer as BarResponsiveContainer
 } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const HomeView = ({ darkMode, inventoryItems, orders, searchQuery, showRevenue=true }) => {
+const HomeView = ({ darkMode, inventoryItems, orders, searchQuery, showRevenue=true, userRole }) => {
     // Chart data
     const orderStatusData = [
     { name: 'Preparing', value: (orders ?? []).filter(o => o.status === 'Preparing').length },
@@ -22,6 +22,19 @@ const HomeView = ({ darkMode, inventoryItems, orders, searchQuery, showRevenue=t
         { name: 'Medium', value: (inventoryItems ?? []).filter(i => i.status === 'medium').length },
         { name: 'Low', value: (inventoryItems ?? []).filter(i => i.status === 'low').length }
     ];
+
+    // Top locations analytics (admin only)
+    let topLocations = [];
+    if (userRole === 'admin' && Array.isArray(orders)) {
+        const locationCounts = {};
+        orders.forEach(order => {
+            if (order.location) {
+                locationCounts[order.location] = (locationCounts[order.location] || 0) + 1;
+            }
+        });
+        topLocations = Object.entries(locationCounts).map(([location, count]) => ({ location, count }));
+        topLocations.sort((a, b) => b.count - a.count);
+    }
 
     return (
         <div className="space-y-6">
@@ -48,6 +61,23 @@ const HomeView = ({ darkMode, inventoryItems, orders, searchQuery, showRevenue=t
                     <p className="text-sm text-gray-500">Need immediate attention</p>
                 </div>
             </div>
+
+            {/* Only admin sees analytics */}
+            {userRole === 'admin' && topLocations.length > 0 && (
+                <div className={`p-4 rounded-lg shadow ${darkMode ? 'bg-gray-800' : 'bg-gray-100'} mt-6`}>
+                    <h2 className="text-xl font-semibold mb-4">Top Order Locations</h2>
+                    <div className="h-64">
+                        <BarResponsiveContainer width="100%" height="100%">
+                            <BarChart data={topLocations} margin={{ top: 5, right: 40, left: 20, bottom: 5 }}>
+                                <XAxis dataKey="location" stroke={darkMode ? '#fff' : '#000'} />
+                                <YAxis stroke={darkMode ? '#fff' : '#000'} allowDecimals={false} />
+                                <BarTooltip contentStyle={{ backgroundColor: darkMode ? '#333' : '#fff', borderColor: darkMode ? '#555' : '#ddd' }} />
+                                <Bar dataKey="count" fill={darkMode ? '#f59e0b' : '#3b82f6'} radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                        </BarResponsiveContainer>
+                    </div>
+                </div>
+            )}
 
             {/* Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { toast } from 'sonner';
 
-const OrdersView = ({ darkMode, orders = [], setOrders = () => {}, searchQuery = '' }) => {
+const OrdersView = ({ darkMode, orders = [], setOrders = () => {}, searchQuery = '', userRole }) => {
     const [orderToDelete, setOrderToDelete] = useState(null);
 
     // Safe order functions
@@ -16,6 +17,7 @@ const OrdersView = ({ darkMode, orders = [], setOrders = () => {}, searchQuery =
     const deleteOrder = (id) => {
         setOrders((orders || []).filter(order => order.id !== id));
         setOrderToDelete(null);
+        toast.info('Order deleted. Undo coming soon!');
     };
 
     // Safe filtering with null checks
@@ -31,6 +33,11 @@ const OrdersView = ({ darkMode, orders = [], setOrders = () => {}, searchQuery =
     const pendingOrders = (orders || []).filter(order => order.status === 'Preparing').length;
     const readyOrders = (orders || []).filter(order => order.status === 'Ready').length;
     const completedOrders = (orders || []).filter(order => order.status === 'Delivered').length;
+
+    // Only show orders to admin and orders roles
+    if (userRole !== 'admin' && userRole !== 'orders') {
+        return <div className="p-8 text-center text-gray-500">You do not have permission to view orders.</div>;
+    }
 
     return (
         <div className="space-y-6">
